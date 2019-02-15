@@ -14,7 +14,7 @@ class Pizza:
 
 
 #Read input file
-filepath = '../inputs/a_example.in'  
+filepath = '../inputs/a_example.in' 
 with open(filepath) as fp:  
    for cnt, line in enumerate(fp):
         if cnt == 0:
