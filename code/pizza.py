@@ -17,7 +17,11 @@ class Pizza:
         self.board.append(line)
     
     def save_result(self):
+        sum = 0
+        for cell in self.slides:
+            sum += abs(cell[2] - cell[0]) * abs(cell[3] - cell[1])
         print(self.slides)
+        print(sum)
     
     def solve(self):
         self.solve_recursive(0,0,self.rows,self.columns)
@@ -75,7 +79,7 @@ class Pizza:
 
 
 #Read input file
-filepath = '../inputs/a_example.in' 
+filepath = '../inputs/c_medium.in' 
 with open(filepath) as fp:  
    for cnt, line in enumerate(fp):
         if cnt == 0:
