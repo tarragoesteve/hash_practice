@@ -5,31 +5,7 @@ import math
 
 from ortools.sat.python import cp_model
 
-# You need to subclass the cp_model.CpSolverSolutionCallback class.
-class VarArrayAndObjectiveSolutionPrinter(cp_model.CpSolverSolutionCallback):
-    """Print intermediate solutions."""
-
-    def __init__(self, variables):
-        cp_model.CpSolverSolutionCallback.__init__(self)
-        self.__variables = variables
-        self.__solution_count = 0
-
-    def on_solution_callback(self):
-        print('Solution %i' % self.__solution_count)
-        print('  objective value = %i' % self.ObjectiveValue())
-        for v in self.__variables:
-            print('  %s = %i' % (v, self.Value(v)), end=' ')
-        print()
-        self.__solution_count += 1
-
-    def solution_count(self):
-        return self.__solution_count
-
-    def get_last_solution(self):
-        return self.__solution_count
-
-
-def SolveAndPrintIntermediateSolutionsSampleSat():
+def build_model(self, model, input, current):
 
     # input
     input_matrix = []
@@ -37,19 +13,6 @@ def SolveAndPrintIntermediateSolutionsSampleSat():
     rows = 0
     min_ingredients = 0
     max_pieces = 0
-
-    #Read input file
-    filepath = './../inputs/c_medium.in'
-    with open(filepath) as fp:  
-        for cnt, line in enumerate(fp):
-            if cnt == 0:
-                [rows, columns, min_ingredients, max_pieces] = map(int, line.split())
-            else:
-                input_matrix.append(line)
-
-    """Showcases printing intermediate solutions found during search."""
-    # Creates the model.
-    model = cp_model.CpModel()
 
     max_num_squares = math.ceil(rows*columns/(min_ingredients * 4))
 
@@ -140,21 +103,3 @@ def SolveAndPrintIntermediateSolutionsSampleSat():
 
     # Optimize
     model.Maximize(sum(areas))
-
-    # Creates a solver and solves.
-    solver = cp_model.CpSolver()
-    flat_list =  [item for sublist in [x_starts, y_starts, x_ends, y_ends, optionals, multiple_mushrooms, multiple_tomatoes] for item in sublist]
-    flat_list = []
-
-    solver.parameters.max_time_in_seconds = 250
-    
-    solution_printer = VarArrayAndObjectiveSolutionPrinter(flat_list)
-
-    print("Start the solver")
-
-    status = solver.SolveWithSolutionCallback(model, solution_printer)
-
-    print('Status = %s' % solver.StatusName(status))
-    print('Number of solutions found: %i in %f ' % (solution_printer.solution_count(), solver.WallTime()))
-
-SolveAndPrintIntermediateSolutionsSampleSat()

@@ -1,13 +1,9 @@
-import json
 from multiprocessing import Process, Queue
 from problemInput import ProblemInput
 from solution import Solution
 import importlib
+from config import Config
 
-
-def load_config():
-    with open('../config.json') as f:
-        return json.load(f)
 
 def instantiate_class(algorithm_name):
     module = importlib.import_module("algorithms.%s" % algorithm_name, algorithm_name.capitalize())
@@ -16,17 +12,18 @@ def instantiate_class(algorithm_name):
 
 
 def solve(problem_input):
-    global config
 
     #run the algorithms
-    num_algorithms = len(config["algorithms"])
+    algorithms = Config.get["algorithms"]
+    num_algorithms = len(algorithms)
 
     processes = []
     responses = []
 
     for i in range(num_algorithms - 1):
+        algorithm_name = Config.getAlgorithmName(algorithms[i])
         response = Queue()
-        solver = instantiate_class(config["algorithms"][i])
+        solver = instantiate_class(algorithm_name)
         p = Process(target=solver.run, args=(response, problem_input))
         p.start()
 
@@ -34,8 +31,9 @@ def solve(problem_input):
         responses.append(response)
 
     # we use this thread for the last one
+    algorithm_name = Config.getAlgorithmName(algorithms[num_algorithms - 1])
     queue_best_response = Queue()
-    solver = instantiate_class(config["algorithms"][num_algorithms - 1])
+    solver = instantiate_class(algorithm_name)
     solver.run(queue_best_response, problem_input)
     
     # we pick the best one
@@ -55,11 +53,10 @@ def solve(problem_input):
 def main():
 
     # load the config
-    global config
-    config = load_config()
+    Config.load()
 
     # get input
-    problem_input = ProblemInput(config["input_file"])
+    problem_input = ProblemInput(Config.get["input_file"])
 
     # solve the problem
     solution = solve(problem_input)
@@ -72,5 +69,6 @@ def main():
 
     # print the solution
     solution.render()
-    
-main()
+
+if __name__ == "__main__":
+    main()

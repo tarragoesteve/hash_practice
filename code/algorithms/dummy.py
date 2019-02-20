@@ -1,13 +1,9 @@
 # just a dummy algorithm that does nothing
 from solution import Solution
+from interfaces.algorithmInterface import Algorithm
 
-class Dummy:
+class Dummy(Algorithm):
     
-    def solve(self, input, current):
+    def solve(self, input, current = Solution()):
+        current.test = self.call_heuristic([1,2,3,4,5,6])
         return current
-
-    def run(self, queue, input, current = Solution()):
-        queue.put(self.solve(input, current))
-
-
-    

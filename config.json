@@ -1,4 +1,12 @@
 {
     "input_file" : "../inputs/b_small.in",
-    "algorithms" : ["dummy", "dummy"]
+    "algorithms" : ["dummy"],
+    "dummy" : {
+        "prefunction" : "doNothing",
+        "heuristic" : "random",
+        "test" : 0
+    },
+    "sat" : {
+        "max_runtime" : 60
+    }
 }
