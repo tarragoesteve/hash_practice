@@ -1,12 +1,13 @@
 {
     "input_file" : "../inputs/b_small.in",
-    "algorithms" : ["dummy"],
+    "algorithms" : ["cpsat"],
+    
     "dummy" : {
         "prefunction" : "doNothing",
         "heuristic" : "random",
         "test" : 0
     },
-    "sat" : {
-        "max_runtime" : 60
+    "cpsat" : {
+        "max_runtime" : 3
     }
 }

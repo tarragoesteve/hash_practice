@@ -2,13 +2,24 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import math
-
+from solution import Solution
 from ortools.sat.python import cp_model
+from generic.sat_model import SatModel
+from config import Config
 
-class cpsat(SatModel):
+class Cpsat(SatModel):
 
-    def sat_vars_to_solution(self, solution_printer):
-        return ""
+    def sat_vars_to_solution(self, solver):
+        solution = Solution()
+        for i in range(len(self.x_starts)):
+            if(solver.Value(self.optionals[i])):
+                x1 = solver.Value(self.x_starts[i])
+                x2 = solver.Value(self.x_ends[i]) - 1
+                y1 = solver.Value(self.y_starts[i])
+                y2 = solver.Value(self.y_ends[i]) - 1
+                solution.add_slice(x1, y1, x2, y2)
+        return solution
+
 
     def build_model(self, model, input, current):
 
@@ -108,3 +119,11 @@ class cpsat(SatModel):
 
         # Optimize
         model.Maximize(sum(areas))
+
+        # Pass to class objects to be able to print
+        self.x_starts = x_starts
+        self.x_ends = x_ends
+        self.y_starts = y_starts
+        self.y_ends = y_ends
+        self.optionals = optionals
+        self.areas = areas

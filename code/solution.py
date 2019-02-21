@@ -36,4 +36,4 @@ class Solution(SolutionInterface):
 
     def add_slice(self, x1, y1, x2, y2):
         self.slices.append([x1, y1, x2, y2])
-        self.cvalue += abs(x2 - x1) * abs(y2 - y1)
+        self.cvalue += abs(x2 - x1 + 1) * abs(y2 - y1 + 1)

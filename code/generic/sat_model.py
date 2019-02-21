@@ -2,8 +2,10 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import math
-
+from solution import Solution
+from interfaces.algorithmInterface import Algorithm
 from ortools.sat.python import cp_model
+from config import Config
 
 # You need to subclass the cp_model.CpSolverSolutionCallback class.
 class VarArrayAndObjectiveSolutionPrinter(cp_model.CpSolverSolutionCallback):
@@ -25,17 +27,17 @@ class VarArrayAndObjectiveSolutionPrinter(cp_model.CpSolverSolutionCallback):
     def get_last_solution(self):
         return self.__solution_count
 
-class SatModel:
+class SatModel(Algorithm):
 
     def solve(self, input, current = Solution()):
 
         model = cp_model.CpModel()
 
-        self.build_model(input, current)
+        self.build_model(model, input, current)
 
         # Creates a solver and solves.
         solver = cp_model.CpSolver()
-        solver.parameters.max_time_in_seconds = Config.get_attribute_or_default(config, "max_runtime", 60)
+        solver.parameters.max_time_in_seconds = Config.get_attribute_or_default(self.config, "max_runtime", 60)
 
         solution_printer = VarArrayAndObjectiveSolutionPrinter()
         status = solver.SolveWithSolutionCallback(model, solution_printer)
@@ -43,4 +45,4 @@ class SatModel:
         print('Status = %s' % solver.StatusName(status))
         print('Number of solutions found: %i in %f ' % (solution_printer.solution_count(), solver.WallTime()))
 
-        self.sat_vars_to_solution(solution_printer)
+        return self.sat_vars_to_solution(solver)
