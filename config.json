@@ -1,6 +1,6 @@
 {
     "input_file" : "../inputs/b_small.in",
-    "algorithms" : ["cpsat"],
+    "algorithms" : ["dummy"],
     
     "dummy" : {
         "prefunction" : "doNothing",
