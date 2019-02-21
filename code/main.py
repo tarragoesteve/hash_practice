@@ -21,7 +21,7 @@ def solve(problem_input):
     responses = []
 
     for i in range(num_algorithms - 1):
-        algorithm_name = Config.getAlgorithmName(algorithms[i])
+        algorithm_name = Config.get_algorithm_name(algorithms[i])
         response = Queue()
         solver = instantiate_class(algorithm_name)
         p = Process(target=solver.run, args=(response, problem_input))
@@ -31,21 +31,22 @@ def solve(problem_input):
         responses.append(response)
 
     # we use this thread for the last one
-    algorithm_name = Config.getAlgorithmName(algorithms[num_algorithms - 1])
+    algorithm_name = Config.get_algorithm_name(algorithms[num_algorithms - 1])
     queue_best_response = Queue()
     solver = instantiate_class(algorithm_name)
     solver.run(queue_best_response, problem_input)
-    
-    # we pick the best one
-    best_response = queue_best_response.get()
-    for queue_response in responses:
-        response = queue_response.get()
-        if best_response.value() < response.value():
-            best_response = response
 
     # we make sure all the threads correctly exited
     for p in processes:
         p.join()
+
+    # we pick the best one
+    best_response = queue_best_response.get()
+    for queue_response in responses:
+        while(len(queue_response)):
+            response = queue_response.get()
+            if best_response.value() < response.value():
+                best_response = response
 
     return best_response
 

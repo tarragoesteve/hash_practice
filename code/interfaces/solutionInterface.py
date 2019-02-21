@@ -10,14 +10,14 @@ class SolutionInterface:
 
     def value(self):
         # return the cost of the solution
-        return 0
+        raise Exception('Solution value needs to be implemented')
 
-    def toString(self):
+    def to_string(self):
         # return the plain string representation of the solution
         return json.dumps(vars(self))
 
     def save(self):
-        toSave = self.toString()
+        toSave = self.to_string()
         with open("../outputs/%i_%i" % (self.value(), time.time()), "w") as text_file:
             text_file.write(toSave)
 

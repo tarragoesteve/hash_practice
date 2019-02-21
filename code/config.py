@@ -10,14 +10,14 @@ class Config:
             Config.get = json.load(f)
 
     @staticmethod
-    def getAttributeOrDefault(obj, attribute, default):
+    def get_attribute_or_default(obj, attribute, default):
         if attribute in obj:
             return obj[attribute]
         else:
             return default
 
     @staticmethod
-    def getAlgorithmName(key):
+    def get_algorithm_name(key):
         if key in Config.get and "algorithm" in Config.get[key]:
             return Config.get[key]["algorithm"]
         else:

@@ -10,6 +10,7 @@ class ProblemInput:
             for cnt, line in enumerate(fp):
                 self.read_line(cnt, line)
 
+
     def init_variables(self):
         self.input_matrix = []
             
