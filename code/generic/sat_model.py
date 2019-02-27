@@ -29,6 +29,11 @@ class VarArrayAndObjectiveSolutionPrinter(cp_model.CpSolverSolutionCallback):
 
 class SatModel(Algorithm):
 
+    # functions:
+    # sat_vars_to_solution(self, solver)
+    # build_model(self, model, input, current)
+
+
     def solve(self, input, current = Solution()):
 
         model = cp_model.CpModel()
