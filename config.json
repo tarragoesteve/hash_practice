@@ -1,7 +1,7 @@
 {
     "input_file" : "../inputs/b_small.in",
-    "algorithms" : ["dummy"],
-    
+    "algorithms" : ["cpsat"],
+    "timeout_secondary" : 1,
     "dummy" : {
         "prefunction" : "doNothing",
         "heuristic" : "random",
@@ -9,5 +9,8 @@
     },
     "cpsat" : {
         "max_runtime" : 3
+    },
+    "brkgadec" : {
+        "max_individuals" : 200
     }
 }

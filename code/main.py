@@ -2,6 +2,7 @@ from multiprocessing import Process, Queue
 from problemInput import ProblemInput
 from solution import Solution
 import importlib
+import time
 from config import Config
 
 
@@ -12,6 +13,8 @@ def instantiate_class(algorithm_name):
 
 
 def solve(problem_input):
+
+    time_start = time.time()
 
     #run the algorithms
     algorithms = Config.get["algorithms"]
@@ -36,14 +39,18 @@ def solve(problem_input):
     solver = instantiate_class(algorithm_name)
     solver.run(queue_best_response, problem_input)
 
-    # we make sure all the threads correctly exited
+    # we make sure all the threads correctly exited or timeout
+    max_time = Config.get_attribute_or_default(Config.get, "timeout_secondary", 3600)
     for p in processes:
-        p.join()
+        print(max_time - (time.time() - time_start))
+        p.join(max(max_time - (time.time() - time_start), 0))
+        if(p.exitcode == None):
+            p.terminate()
 
     # we pick the best one
     best_response = queue_best_response.get()
     for queue_response in responses:
-        while(len(queue_response)):
+        while(not queue_response.empty()):
             response = queue_response.get()
             if best_response.value() < response.value():
                 best_response = response
