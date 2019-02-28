@@ -79,7 +79,7 @@ class Pizza:
 
 
 #Read input file
-filepath = '../inputs/c_medium.in' 
+filepath = '../inputs/b_small.in' 
 with open(filepath) as fp:  
    for cnt, line in enumerate(fp):
         if cnt == 0:

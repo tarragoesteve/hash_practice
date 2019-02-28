@@ -1,6 +1,6 @@
 {
     "input_file" : "../inputs/b_small.in",
-    "algorithms" : ["dummy"],
+    "algorithms" : ["dissabte"],
     
     "dummy" : {
         "prefunction" : "doNothing",
@@ -8,6 +8,9 @@
         "test" : 0
     },
     "cpsat" : {
-        "max_runtime" : 3
+        "max_runtime" : 60
+    },
+    "dissabte" : {
+       
     }
 }
