@@ -1,28 +1,20 @@
 {
     "input_file" : "../inputs/b_small.in",
-<<<<<<< HEAD
-    "algorithms" : ["dissabte"],
-    
-=======
     "algorithms" : ["cpsat"],
     "timeout_secondary" : 1,
->>>>>>> 5f0f7d8ffd7675f87cd9aa069879bab44298ed56
     "dummy" : {
         "prefunction" : "doNothing",
         "heuristic" : "random",
         "test" : 0
     },
     "cpsat" : {
-<<<<<<< HEAD
         "max_runtime" : 60
     },
     "dissabte" : {
        
-=======
         "max_runtime" : 3
     },
     "brkgadec" : {
         "max_individuals" : 200
->>>>>>> 5f0f7d8ffd7675f87cd9aa069879bab44298ed56
     }
 }
