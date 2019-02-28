@@ -1,6 +1,7 @@
 import fileinput
 import json
 import time
+from config import Config
 
 class SolutionInterface:
     
@@ -20,6 +21,10 @@ class SolutionInterface:
         toSave = self.to_string()
         with open("../outputs/%i_%i" % (self.value(), time.time()), "w") as text_file:
             text_file.write(toSave)
+
+        withConfig = Config.json_string + '\n****\n' + toSave
+        with open("../outputs_with_config/%i_%i" % (self.value(), time.time()), "w") as text_file:
+            text_file.write(withConfig)
 
     def render(self):
         # pretty print of the solution

@@ -3,11 +3,13 @@ import json
 class Config:
     
     get = {}
+    json_string = ""
 
     @staticmethod
     def load():
         with open('../config.json') as f:
             Config.get = json.load(f)
+            Config.json_string = json.dumps(Config.get)
 
     @staticmethod
     def get_attribute_or_default(obj, attribute, default):
